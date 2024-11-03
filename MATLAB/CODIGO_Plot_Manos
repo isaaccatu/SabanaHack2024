@@ -1,0 +1,293 @@
+clc
+close all
+clear all
+%%
+
+% Read the CSV file
+data = readtable('C:\Users\isaac\Downloads\archivo.xlsx');
+
+%%
+% Filter rows where the first column is 1
+filtered_data = data(data.Var1 == 1, :);
+
+% Extract columns for plotting
+x = filtered_data.Var3;
+y = filtered_data.Var4;
+z = filtered_data.Var5;
+
+% Plot the data
+scatter3(x, y, z);
+xlabel('X');
+ylabel('Y');
+zlabel('Z');
+title('3D Scatter Plot of Filtered Data');
+
+
+% Loop through data in chunks of 10
+chunk_size = 10;
+num_chunks = ceil(height(filtered_data) / chunk_size);
+
+for i = 1:num_chunks
+    % Get the chunk of data to plot
+    start_idx = (i-1) * chunk_size + 1;
+    end_idx = min(i * chunk_size, height(filtered_data));
+    
+    % Plot the chunk
+    scatter3(x(start_idx:end_idx), y(start_idx:end_idx), z(start_idx:end_idx));
+    pause(1); % Pause for a second to visualize the plot
+    
+    if i < num_chunks
+        clf; % Clear the figure for the next plot
+    end
+end
+
+%%
+
+
+% Read the CSV file as a single column
+data = readtable('C:\Users\isaac\Downloads\archivo.xlsx', 'ReadVariableNames', false);
+
+% Split the single column into four separate columns
+split_data = split(data.Var1, ',');
+
+% Convert split data to a table with proper variable names
+filtered_data = array2table(split_data, 'VariableNames', {'Var1', 'Var2', 'Var3', 'Var4'});
+
+% Filter rows where the first column is 1
+filtered_data.Var1 = str2double(filtered_data.Var1); % Convert Var1 to numeric
+filtered_data = filtered_data(filtered_data.Var1 == 1, :);
+
+% Extract columns for plotting
+x = str2double(filtered_data.Var2);
+y = str2double(filtered_data.Var3);
+z = str2double(filtered_data.Var4);
+
+% Set up the figure
+figure;
+xlabel('X');
+ylabel('Y');
+zlabel('Z');
+title('3D Scatter Plot of Filtered Data');
+
+% Loop through data in chunks of 10
+chunk_size = 20;
+num_chunks = ceil(height(filtered_data) / chunk_size);
+
+for i = 1:num_chunks
+    % Get the chunk of data to plot
+    start_idx = (i-1) * chunk_size + 1;
+    end_idx = min(i * chunk_size, height(filtered_data));
+    
+    % Plot the chunk
+    scatter3(x(start_idx:end_idx), y(start_idx:end_idx), z(start_idx:end_idx));
+    pause(1); % Pause for a second to visualize the plot
+    
+    if i < num_chunks
+        clf; % Clear the figure for the next plot
+    end
+end
+%%
+data = readtable('C:\Users\isaac\Downloads\archivo.xlsx', 'ReadVariableNames', false);
+
+% Split the single column into four separate columns
+split_data = split(data.Var1, ',');
+
+% Convert split data to a table with proper variable names
+filtered_data = array2table(split_data, 'VariableNames', {'Var1', 'Var2', 'Var3', 'Var4'});
+
+
+
+% Extract columns for plotting
+x = str2double(filtered_data.Var2);
+y = str2double(filtered_data.Var3);
+
+% Set up the figure
+figure;
+xlabel('X');
+ylabel('Y');
+title('2D Scatter Plot of Filtered Data');
+
+
+
+% Loop through data in chunks of 10
+chunk_size = 20;
+num_chunks = ceil(height(filtered_data) / chunk_size);
+
+for i = 1:num_chunks
+    % Get the chunk of data to plot
+    start_idx = (i-1) * chunk_size + 1;
+    end_idx = min(i * chunk_size, height(filtered_data));
+    
+    % Plot the chunk
+    scatter(x(start_idx:end_idx), y(start_idx:end_idx));
+    pause(0.1); % Pause for a second to visualize the plot
+    
+    if i < num_chunks
+        clf; % Clear the figure for the next plot
+    end
+end
+%%
+% Read the CSV file as a single column
+data = readtable('C:\Users\isaac\Downloads\archivo.xlsx', 'ReadVariableNames', false);
+% Split the single column into four separate columns
+split_data = split(data.Var1, ',');
+
+% Convert split data to a table with proper variable names
+filtered_data = array2table(split_data, 'VariableNames', {'Var1', 'Var2', 'Var3', 'Var4'});
+
+% Filter rows where the first column is between 1 and 20
+filtered_data.Var1 = str2double(filtered_data.Var1); % Convert Var1 to numeric
+filtered_data = filtered_data(filtered_data.Var1 >= 1 & filtered_data.Var1 <= 20, :);
+
+% Extract columns for plotting
+x = str2double(filtered_data.Var2);
+y = str2double(filtered_data.Var3);
+labels = filtered_data.Var1;
+
+% Set up the figure
+figure;
+xlabel('X');
+ylabel('Y');
+title('2D Scatter Plot of Filtered Data');
+xlim([min(x) max(x)]);
+ylim([min(y) max(y)]);
+
+% Define colors for each value
+colors = lines(20); % 20 different colors
+
+% Loop through data in chunks of 10
+chunk_size = 20;
+num_chunks = ceil(height(filtered_data) / chunk_size);
+
+for i = 1:num_chunks
+    % Get the chunk of data to plot
+    start_idx = (i-1) * chunk_size + 1;
+    end_idx = min(i * chunk_size, height(filtered_data));
+    
+    % Plot the chunk with different colors
+    for j = start_idx:end_idx
+        scatter(x(j), y(j), 36, colors(labels(j), :), 'filled');
+        hold on;
+    end
+    
+    pause(0.1); % Reduce pause time for faster visualization
+    
+    if i < num_chunks
+        clf; % Clear the figure for the next plot
+    end
+end
+
+%%
+
+data = readtable('C:\Users\isaac\Downloads\archivo.xlsx', 'ReadVariableNames', false);
+
+
+% Split the single column into four separate columns
+split_data = split(data.Var1, ',');
+
+% Convert split data to a table with proper variable names
+filtered_data = array2table(split_data, 'VariableNames', {'Var1', 'Var2', 'Var3', 'Var4'});
+
+% Filter rows where the first column is between 1 and 20
+filtered_data.Var1 = str2double(filtered_data.Var1); % Convert Var1 to numeric
+filtered_data = filtered_data(filtered_data.Var1 >= 1 & filtered_data.Var1 <= 20, :);
+
+% Extract columns for plotting
+x = str2double(filtered_data.Var2);
+y = str2double(filtered_data.Var3);
+z = str2double(filtered_data.Var4);
+labels = filtered_data.Var1;
+
+% Set up the figure
+figure;
+xlabel('X');
+ylabel('Y');
+zlabel('Z');
+title('3D Scatter Plot of Filtered Data');
+xlim([min(x) max(x)]);
+ylim([min(y) max(y)]);
+zlim([min(z) max(z)]);
+
+% Define colors for each value
+colors = lines(21); % 20 different colors
+
+% Loop through data in chunks of 10
+chunk_size = 21;
+num_chunks = ceil(height(filtered_data) / chunk_size);
+
+for i = 1:num_chunks
+    % Get the chunk of data to plot
+    start_idx = (i-1) * chunk_size + 1;
+    end_idx = min(i * chunk_size, height(filtered_data));
+    
+    % Plot the chunk with different colors
+    for j = start_idx:end_idx
+        scatter3(x(j), y(j), z(j), 36, colors(labels(j), :), 'filled');
+        hold on;
+    end
+    
+    pause(1); % Reduce pause time for faster visualization
+    
+    if i < num_chunks
+        clf; % Clear the figure for the next plot
+    end
+end
+
+%%
+% Read the CSV file as a single column
+data = readtable('C:\Users\isaac\Downloads\datos2.xlsx', 'ReadVariableNames', false);
+
+% Split the single column into four separate columns
+split_data = split(data.Var1, ',');
+
+% Convert split data to a table with proper variable names
+filtered_data = array2table(split_data, 'VariableNames', {'Var1', 'Var2', 'Var3', 'Var4'});
+
+% Filter rows where the first column is between 1 and 20
+filtered_data.Var1 = str2double(filtered_data.Var1); % Convert Var1 to numeric
+filtered_data = filtered_data(filtered_data.Var1 >= 1 & filtered_data.Var1 <= 20, :);
+
+% Extract columns for plotting
+x = str2double(filtered_data.Var2);
+y = str2double(filtered_data.Var3);
+labels = filtered_data.Var1;
+
+% Set up the figure
+figure;
+xlabel('X');
+ylabel('Y');
+title('2D Scatter Plot of Filtered Data');
+
+% Define the x and y axis limits
+xlim([0 2]);
+ylim([0 2]);
+
+% Define colors for each value
+colors = lines(42); % 20 different colors
+
+% Loop through data in chunks of 10
+chunk_size = 42;
+num_chunks = ceil(height(filtered_data) / chunk_size);
+
+for i = 1:num_chunks
+    % Get the chunk of data to plot
+    start_idx = (i-1) * chunk_size + 1;
+    end_idx = min(i * chunk_size, height(filtered_data));
+    
+    % Plot the chunk with different colors
+    for j = start_idx:end_idx
+        scatter(x(j), y(j), 36, colors(labels(j), :), 'filled');
+        hold on;
+    end
+    
+    pause(0.01); % Reduce pause time for faster visualization
+    
+    if i < num_chunks
+        clf; % Clear the figure for the next plot, while keeping the axis limits fixed
+        hold on;
+        xlim([-0.5 1.2]);
+        ylim([-0.3 1.2]);
+    end
+end
+
+
