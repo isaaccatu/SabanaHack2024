@@ -1,0 +1,123 @@
+import pandas as pd
+
+Data = pd.read_csv("/content/DATA.csv")
+print(Data.head())
+
+x_col = Data.columns[0]  # First column name
+y_col = Data.columns[1]  # Second column name
+
+# Plot the data using the correct column names
+Data.plot(x=x_col, y=y_col, kind="bar")
+
+plt.xlabel(x_col)
+plt.ylabel("Tiempo de duración (s)")
+plt.title("Tiempo de duración promedio de cada acción")
+plt.show()
+
+Data1 = pd.read_excel("/content/Data.xlsx")
+print(Data1.head())
+
+# Get the actual column names from your DataFrame
+x_col = Data1.columns[0]  # First column name
+y_col = Data1.columns[1]  # Second column name
+
+# Plot the data using the correct column names
+Data1.plot(x=x_col, y=y_col, kind="bar")
+
+plt.xlabel(x_col)
+plt.ylabel("Cantidad de incidentes")
+plt.title("Cantidad de incidentes de elementos no deseados presentes en el lavado")
+plt.show()
+
+
+import pandas as pd
+import numpy as np
+import random
+
+# Create a sample DataFrame with random data
+num_rows = 100
+data = {
+    'Names': [f'Name {i}' for i in range(num_rows)],
+    'Location': ['UCI'] * num_rows,
+    'Date': pd.to_datetime(['2024-01-15', '2024-01-16', '2024-01-17','2024-01-18','2024-01-19','2024-01-20'] * 17),
+    'Hour': [f'{random.randint(0, 23):02}:{random.randint(0, 59):02}' for _ in range(num_rows)],
+    'Total Duration': np.random.randint(30, 200, size=num_rows),
+    'Procedure 1': np.random.randint(0, 41, size=num_rows),
+    'Procedure 2': np.random.randint(0, 41, size=num_rows),
+    'Procedure 3': np.random.randint(0, 41, size=num_rows),
+    'Procedure 4': np.random.randint(0, 41, size=num_rows),
+    'Procedure 5': np.random.randint(0, 41, size=num_rows),
+    'Procedure 6': np.random.randint(0, 41, size=num_rows),
+}
+
+df = pd.DataFrame(data)
+
+# Calculate total time
+df['Total Time'] = df[['Procedure 1', 'Procedure 2', 'Procedure 3', 'Procedure 4', 'Procedure 5', 'Procedure 6']].sum(axis=1)
+
+# Generate random boolean values for checkboxes
+df['Rings'] = np.random.choice([True, False], size=num_rows)
+df['Clock or Bracelet'] = np.random.choice([True, False], size=num_rows)
+df['Nails Painted or Long'] = np.random.choice([True, False], size=num_rows)
+
+# Determine 'Completed' status based on conditions
+df['Completed'] = (df['Total Time'] > 60) & (~df['Rings']) & (~df['Clock or Bracelet']) & (~df['Nails Painted or Long'])
+
+# Display the DataFrame
+print(df.head())
+
+
+import pandas as pd
+import numpy as np
+
+# Create a DataFrame with the specified columns
+data = {
+    'Nombres': ['David Rojas', 'Santiago Giraldo', 'Felipe Gonzalez', 'Tatiana Pinilla', 'Felipe Gonzalez', 'David Rojas', 'Diana Rodriguez', 'Santiago Giraldo', 'Diana Rodriguez', 'David Rojas' ],  # Replace with actual names if available
+    'Ubicación': ['UCI'] * 10,
+    'Fecha': pd.to_datetime(['2024-01-15', '2024-01-16', '2024-01-17','2024-01-18','2024-01-19'] * 2),
+    'Hora': pd.Series(pd.to_datetime(['2023-10-27 ' + str(i).zfill(2) + ':02' for i in range(8,18)])).dt.strftime('%H:%M'),
+    'Palma a Palma': np.random.randint(0, 41, 10),
+    'Palma sobre dorso, entrelazando dedos': np.random.randint(0, 41, 10),
+    'Palma a palma, dedos entrelazados': np.random.randint(0, 41, 10),
+    'Dorso de dedos contra manos, candado': np.random.randint(0, 41, 10),
+    'Frote rotacional al pulgar': np.random.randint(0, 41, 10),
+    'Punta de dedos contra palma': np.random.randint(0, 41, 10),
+}
+
+df = pd.DataFrame(data)
+
+# Calculate 'Total Time'
+df['Tiempo Total (s)'] = df[['Palma a Palma', 'Palma sobre dorso, entrelazando dedos', 'Palma a palma, dedos entrelazados', 'Dorso de dedos contra manos, candado', 'Frote rotacional al pulgar', 'Punta de dedos contra palma']].sum(axis=1)
+
+
+# Create boolean columns with random values
+df['Anillos'] = np.random.choice([True, False], size=10)
+df['Reloj o Brazalete'] = np.random.choice([True, False], size=10)
+df['Uñas largas o pintadas'] = np.random.choice([True, False], size=10)
+
+# Check conditions for the 'Completed' column
+df['Completado'] = (df['Palma a Palma'] > 20) & (df['Palma sobre dorso, entrelazando dedos'] > 20) & (df['Palma a palma, dedos entrelazados'] > 20) & (df['Dorso de dedos contra manos, candado'] > 20) & (df['Frote rotacional al pulgar'] > 20) & (df['Punta de dedos contra palma'] > 20) & (~df['Anillos']) & (~df['Reloj o Brazalete']) & (~df['Uñas largas o pintadas'])
+
+df
+
+# Export the DataFrame to an Excel file
+df.to_excel('output.xlsx', index=False)  # Set index=False to exclude row indices in the output
+
+
+average_times = df.groupby('Nombres')['Tiempo Total (s)'].mean()
+print(average_times)
+
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.figure(figsize=(10,6))
+sns.barplot(data=df, x='Nombres', y='Tiempo Total (s)')
+plt.xticks(rotation=90)
+plt.show()
+
+
+
+
+
+
